@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -25,6 +26,12 @@ public class DriveTrain extends Subsystem {
         new CANSparkMax(RobotMap.rightFrontDriveMotor, MotorType.kBrushless),
         //new CANSparkMax(RobotMap.rightRearDriveMotor, MotorType.kBrushless)
     };
+
+    Spark[] PWMDriveMotors = {
+        new Spark(RobotMap.leftRearDriveMotorPWM),
+        new Spark(RobotMap.rightRearDriveMotorPWM)
+    };
+
     CANEncoder[] driveEncoders = {
         driveMotors[0].getEncoder(),
 //        driveMotors[1].getEncoder(),
@@ -45,6 +52,8 @@ public class DriveTrain extends Subsystem {
         driveMotors[0].setInverted(true);
         driveMotors[1].setInverted(false);
 
+        PWMDriveMotors[0].setInverted(true);
+        PWMDriveMotors[1].setInverted(false);
         //driveMotors[2].setInverted(false);
         //driveMotors[3].setInverted(false);
 
@@ -54,6 +63,7 @@ public class DriveTrain extends Subsystem {
 
     public void setDriveMotor(int index, double percent) {
         driveMotors[index].set(percent);
+        PWMDriveMotors[index].set(percent);
     }
 
     public void setDriveMotors(double percent) {
@@ -73,6 +83,8 @@ public class DriveTrain extends Subsystem {
         left = MathCustom.Clamp(left, -1, 1);
         setTankDrive(left, right);
     }
+
+    public void setPWMDriverMotor(int index, double percent) { PWMDriveMotors[index].set(percent); }
 
     @Override
     public void initDefaultCommand() {
