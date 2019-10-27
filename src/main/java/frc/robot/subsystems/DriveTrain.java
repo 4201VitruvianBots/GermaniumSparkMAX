@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
+import com.revrobotics.SparkMax;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -25,6 +27,12 @@ public class DriveTrain extends Subsystem {
         new CANSparkMax(RobotMap.rightFrontDriveMotor, MotorType.kBrushless),
         //new CANSparkMax(RobotMap.rightRearDriveMotor, MotorType.kBrushless)
     };
+
+    private Spark[] driveFollowMotors = {
+        new Spark(0),
+        new Spark(1)
+    };
+
     CANEncoder[] driveEncoders = {
         driveMotors[0].getEncoder(),
 //        driveMotors[1].getEncoder(),
@@ -42,8 +50,11 @@ public class DriveTrain extends Subsystem {
             driveMotor.setOpenLoopRampRate(0.1);
         }
 
-        driveMotors[0].setInverted(true);
-        driveMotors[1].setInverted(false);
+        driveMotors[0].setInverted(false);
+        driveMotors[1].setInverted(true);
+
+        driveFollowMotors[0].setInverted(false);
+        driveFollowMotors[1].setInverted(true);
 
         //driveMotors[2].setInverted(false);
         //driveMotors[3].setInverted(false);
@@ -54,6 +65,7 @@ public class DriveTrain extends Subsystem {
 
     public void setDriveMotor(int index, double percent) {
         driveMotors[index].set(percent);
+        driveFollowMotors[index].set(percent);
     }
 
     public void setDriveMotors(double percent) {

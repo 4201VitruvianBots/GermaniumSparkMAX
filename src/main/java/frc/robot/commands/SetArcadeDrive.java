@@ -14,6 +14,7 @@ import frc.robot.Robot;
  *
  */
 public class SetArcadeDrive extends Command {
+    private double throttle, turn;
     public SetArcadeDrive() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
@@ -26,7 +27,9 @@ public class SetArcadeDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.setArcadeDrive(-Robot.m_oi.leftJoystick.getY(), Robot.m_oi.rightJoystick.getX());
+        throttle = -Robot.m_oi.leftJoystick.getY();
+        turn = 0.75 * Robot.m_oi.rightJoystick.getX();
+        Robot.driveTrain.setArcadeDrive(throttle, turn);
     }
 
     // Make this return true when this Command no longer needs to run execute()
