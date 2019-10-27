@@ -86,6 +86,8 @@ public class DriveTrain extends Subsystem {
         setTankDrive(left, right);
     }
 
+    public void setPWMDriverMotor(int index, double percent) { PWMDriveMotors[index].set(percent); }
+
     @Override
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
